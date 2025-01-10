@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
@@ -7,6 +7,10 @@ export default function EarnMoreScreen() {
   return (
     <>
       <ThemedView style={styles.container}>
+        <Image
+          source={require("@/assets/images/splash-icon.png")}
+          style={styles.reactLogo}
+        />
         <ThemedText type="title" style={styles.title}>
           This screen doesn't exist due to prototyping purposes
         </ThemedText>
@@ -26,6 +30,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+  },
+  reactLogo: {
+    width: 50,
+    height: 100,
+    marginBottom: 24,
   },
   title: {
     fontSize: 24,
