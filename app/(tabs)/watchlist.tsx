@@ -9,7 +9,7 @@ export default function WatchlistScreen() {
       <ThemedView style={styles.container}>
         <Image
           source={require("@/assets/images/splash-icon.png")}
-          style={styles.reactLogo}
+          style={styles.shopbackIcon}
         />
         <ThemedText type="title" style={styles.title}>
           This screen doesn't exist due to prototyping purposes
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
-  reactLogo: {
+  shopbackIcon: {
     width: 50,
     height: 100,
     marginBottom: 24,

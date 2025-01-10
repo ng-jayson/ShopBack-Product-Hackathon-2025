@@ -53,22 +53,18 @@ export default function TabLayout() {
               style={{
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: Colors[colorScheme ?? "light"].tint,
+                alignSelf: "center",
+                backgroundColor: "#FF3507",
                 width: 60,
                 height: 40,
                 borderRadius: 20,
                 bottom: -5,
-                left: 10,
               }}
               onPress={() => {
-                console.log("Scanner button pressed");
+                // console.log("Scanner button pressed");
               }}
             >
-              <IconSymbol
-                size={28}
-                name="qrcode.viewfinder"
-                color={Colors[colorScheme ?? "light"].icon}
-              />
+              <IconSymbol size={28} name="qrcode.viewfinder" color="#fff" />
             </TouchableOpacity>
           ),
         }}
