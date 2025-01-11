@@ -17,7 +17,6 @@ import Recommendation from "@/components/Recommendation";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
 import { IconSymbol } from "@/components/ui/IconSymbol";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const filters = [
   "Plus+",
@@ -102,6 +101,12 @@ export default function HomeScreen() {
     extrapolate: "clamp",
   });
 
+  const headerPadding = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: [60, 60],
+    extrapolate: "clamp",
+  });
+
   return (
     <>
       <Animated.View
@@ -109,16 +114,7 @@ export default function HomeScreen() {
           styles.header,
           {
             backgroundColor: headerBackgroundColor,
-            paddingTop: scrollY.interpolate({
-              inputRange: [0, 50],
-              outputRange: [0, 30],
-              extrapolate: "clamp",
-            }),
-            top: scrollY.interpolate({
-              inputRange: [0, 50],
-              outputRange: [40, 0],
-              extrapolate: "clamp",
-            }),
+            paddingTop: headerPadding,
           },
         ]}
       >
@@ -176,7 +172,7 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
       <Animated.ScrollView
-        style={{ flex: 1, marginBottom: 40 }}
+        style={{ flex: 1, marginBottom: "15%" }}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: false }
@@ -315,7 +311,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   header: {
     position: "absolute",
-    top: 20,
     left: 0,
     right: 0,
     zIndex: 10,
@@ -390,6 +385,8 @@ const styles = StyleSheet.create({
   headerBanner: {
     objectFit: "cover",
     width: "100%",
+    backgroundColor: "#F6E360",
+    paddingTop: 20,
     zIndex: 0,
   },
   icon: {
