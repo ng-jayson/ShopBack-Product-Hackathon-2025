@@ -38,10 +38,30 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider
+        value={{
+          ...(colorScheme === "dark" ? DarkTheme : DefaultTheme),
+          colors: {
+            ...(colorScheme === "dark"
+              ? DarkTheme.colors
+              : DefaultTheme.colors),
+            background: colorScheme === "dark" ? "#202020" : "#ffffff",
+          },
+        }}
+      >
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+              animation: "slide_from_left",
+            }}
+          />
+          <Stack.Screen
+            name="(topographical)"
+            options={{ headerShown: false, animation: "slide_from_right" }}
+          />
+          <Stack.Screen name="+not-found" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

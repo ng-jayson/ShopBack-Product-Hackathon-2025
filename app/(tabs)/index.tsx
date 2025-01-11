@@ -180,7 +180,7 @@ export default function HomeScreen() {
                     style={[
                       styles.filterText,
                       {
-                        color: Colors[colorScheme ?? "light"].text,
+                        color: Colors[colorScheme ?? "light"].secondaryText,
                       },
                     ]}
                   >

@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { Link } from "expo-router";
+import { IconSymbol } from "../ui/IconSymbol";
 
 export default function LocationBasedRecommendation() {
   const colorScheme = useColorScheme();
@@ -23,47 +25,49 @@ export default function LocationBasedRecommendation() {
         It seems that you're at{" "}
         <Text style={styles.mallName}>ION Orchard!</Text>
       </Text>
-      <View
-        style={[
-          styles.card,
-          { backgroundColor: Colors[colorScheme ?? "light"].card },
-        ]}
-      >
-        <Image
-          source={require("@/assets/images/ion.png")}
-          style={styles.mallImage}
-        />
-        <View style={styles.textContainer}>
-          <Text
-            style={[
-              styles.mallTitle,
-              { color: Colors[colorScheme ?? "light"].text },
-            ]}
-          >
-            ION Orchard
-          </Text>
-          <Text
-            style={[
-              styles.voucherCount,
-              { color: Colors[colorScheme ?? "light"].secondaryText },
-            ]}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            75 Vouchers Available
-          </Text>
-          <Text
-            style={styles.savingsText}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            Save up to $500 with vouchers
-          </Text>
+      <Link href="/(topographical)">
+        <View
+          style={[
+            styles.card,
+            { backgroundColor: Colors[colorScheme ?? "light"].card },
+          ]}
+        >
+          <Image
+            source={require("@/assets/images/ion.png")}
+            style={styles.mallImage}
+          />
+          <View style={styles.textContainer}>
+            <Text
+              style={[
+                styles.mallTitle,
+                { color: Colors[colorScheme ?? "light"].text },
+              ]}
+            >
+              ION Orchard
+            </Text>
+            <Text
+              style={[
+                styles.voucherCount,
+                { color: Colors[colorScheme ?? "light"].secondaryText },
+              ]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              75 Vouchers Available
+            </Text>
+            <Text
+              style={styles.savingsText}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Save up to $500 with vouchers
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.arrowContainer}>
+            <IconSymbol size={16} name="arrow.right" color="#fff" />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.arrowContainer}>
-          <Text style={styles.arrow}>➔</Text>
-        </TouchableOpacity>
-      </View>
+      </Link>
     </View>
   );
 }
@@ -137,10 +141,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF3507",
     justifyContent: "center",
     alignItems: "center",
-  },
-  arrow: {
-    fontSize: 16,
-    color: "#fff",
-    textAlign: "center",
   },
 });
