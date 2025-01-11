@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Image,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Text,
+  Animated,
 } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { ThemedText } from "@/components/ThemedText";
@@ -13,6 +14,10 @@ import { ThemedView } from "@/components/ThemedView";
 import { HelloWave } from "@/components/HelloWave";
 import LocationBasedRecommendation from "@/components/LocationBased";
 import Recommendation from "@/components/Recommendation";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "@/constants/Colors";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const filters = [
   "Plus+",
@@ -87,83 +92,268 @@ const cashbackItems = [
 ];
 
 export default function HomeScreen() {
-  return (
-    <ScrollView style={{ flex: 1, marginBottom: 80 }}>
-      <Image
-        source={require("@/assets/images/banner.png")}
-        style={styles.headerBanner}
-      />
-      <ThemedView style={styles.homeContainer}>
-        <ThemedView style={styles.newHere}>
-          <Image
-            source={require("@/assets/images/splash-icon.png")}
-            style={styles.icon}
-          />
-          <View style={styles.textContainer}>
-            <ThemedText style={styles.title}>
-              Welcome
-              <HelloWave />
-            </ThemedText>
-            <ThemedText style={styles.description}>
-              New here? Start Earning Cashback
-            </ThemedText>
-          </View>
-        </ThemedView>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.filterScroll}
-        >
-          <View style={styles.filterContainer}>
-            {filters.map((filter, index) => (
-              <View key={index} style={styles.filterItem}>
-                <Text style={styles.filterText}>{filter}</Text>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
-        <ThemedView style={styles.cashbackSection}>
-          <View style={styles.cashbackHeader}>
-            <ThemedText style={styles.cashbackTitle}>
-              Click, Shop, Earn Cashback
-            </ThemedText>
-            <Text style={styles.seeMore}>See more</Text>
-          </View>
-          <FlatGrid
-            horizontal
-            data={cashbackItems}
-            spacing={12}
-            showsHorizontalScrollIndicator={false}
-            style={{ paddingLeft: 0, marginRight: -24, maxHeight: 280 }}
-            renderItem={({ item }) => (
-              <View style={styles.cashbackItem}>
-                <Image
-                  source={{ uri: item.logo }}
-                  style={styles.cashbackIcon}
-                />
+  const colorScheme = useColorScheme();
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const headerColor = Colors[colorScheme ?? "light"].background;
 
-                <Text
-                  style={styles.cashbackItemName}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {item.name}
-                </Text>
-                <Text style={styles.cashbackItemValue}>{item.cashback}</Text>
-              </View>
-            )}
+  const headerBackgroundColor = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: ["transparent", headerColor],
+    extrapolate: "clamp",
+  });
+
+  return (
+    <>
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            backgroundColor: headerBackgroundColor,
+            paddingTop: scrollY.interpolate({
+              inputRange: [0, 50],
+              outputRange: [0, 30],
+              extrapolate: "clamp",
+            }),
+            top: scrollY.interpolate({
+              inputRange: [0, 50],
+              outputRange: [40, 0],
+              extrapolate: "clamp",
+            }),
+          },
+        ]}
+      >
+        <View
+          style={[
+            styles.inputContainer,
+            {
+              backgroundColor: Colors[colorScheme ?? "light"].card,
+              flex: 1,
+              marginRight: 12,
+            },
+          ]}
+        >
+          <IconSymbol
+            size={20}
+            name="magnifyingglass"
+            color={Colors[colorScheme ?? "light"].secondaryText}
+            style={styles.searchIcon}
+          />
+          <Text
+            style={[
+              styles.placeholderText,
+              { color: Colors[colorScheme ?? "light"].secondaryText },
+            ]}
+          >
+            Search for stores...
+          </Text>
+        </View>
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            backgroundColor: Colors[colorScheme ?? "light"].card,
+            justifyContent: "center",
+            alignItems: "center",
+            ...Platform.select({
+              ios: {
+                shadowColor: "rgba(0, 0, 0, 0.3)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.8,
+                shadowRadius: 2,
+              },
+              android: {
+                elevation: 5,
+              },
+            }),
+          }}
+        >
+          <IconSymbol
+            size={20}
+            name="bell"
+            color={Colors[colorScheme ?? "light"].secondaryText}
+          />
+        </View>
+      </Animated.View>
+      <Animated.ScrollView
+        style={{ flex: 1, marginBottom: 40 }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        scrollEventThrottle={16}
+      >
+        <ThemedView style={{ position: "relative" }}>
+          <Image
+            source={require("@/assets/images/banner.png")}
+            style={styles.headerBanner}
           />
         </ThemedView>
-        <LocationBasedRecommendation />
-        <Recommendation />
-      </ThemedView>
-    </ScrollView>
+
+        <ThemedView
+          style={[
+            styles.homeContainer,
+            { backgroundColor: Colors[colorScheme ?? "light"].homeContainer },
+          ]}
+        >
+          <ThemedView
+            style={[
+              styles.newHere,
+              { backgroundColor: Colors[colorScheme ?? "light"].card },
+            ]}
+          >
+            <Image
+              source={require("@/assets/images/splash-icon.png")}
+              style={styles.icon}
+            />
+            <View style={styles.textContainer}>
+              <ThemedText
+                style={[
+                  styles.title,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Welcome
+                <HelloWave />
+              </ThemedText>
+              <ThemedText
+                style={[
+                  styles.description,
+                  { color: Colors[colorScheme ?? "light"].secondaryText },
+                ]}
+              >
+                New here? Start Earning Cashback
+              </ThemedText>
+            </View>
+          </ThemedView>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.filterScroll}
+          >
+            <View style={styles.filterContainer}>
+              {filters.map((filter, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.filterItem,
+                    {
+                      backgroundColor: Colors[colorScheme ?? "light"].card,
+                      borderColor: Colors[colorScheme ?? "light"].border,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.filterText,
+                      {
+                        color: Colors[colorScheme ?? "light"].text,
+                      },
+                    ]}
+                  >
+                    {filter}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+          <ThemedView style={styles.cashbackSection}>
+            <View style={styles.cashbackHeader}>
+              <ThemedText
+                style={[
+                  styles.cashbackTitle,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Click, Shop, Earn Cashback
+              </ThemedText>
+              <Text style={styles.seeMore}>See more</Text>
+            </View>
+            <FlatGrid
+              horizontal
+              data={cashbackItems}
+              spacing={12}
+              showsHorizontalScrollIndicator={false}
+              style={{ paddingLeft: 0, marginRight: -24, maxHeight: 280 }}
+              renderItem={({ item }) => (
+                <View style={styles.cashbackItem}>
+                  <Image
+                    source={{ uri: item.logo }}
+                    style={styles.cashbackIcon}
+                  />
+
+                  <Text
+                    style={[
+                      styles.cashbackItemName,
+                      { color: Colors[colorScheme ?? "light"].secondaryText },
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {item.name}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.cashbackItemValue,
+                      { color: Colors[colorScheme ?? "light"].text },
+                    ]}
+                  >
+                    {item.cashback}
+                  </Text>
+                </View>
+              )}
+            />
+          </ThemedView>
+          <LocationBasedRecommendation />
+          <Recommendation />
+        </ThemedView>
+      </Animated.ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    position: "absolute",
+    top: 20,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    shadowColor: "rgba(0, 0, 0, 0.3)",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 2,
+  },
+  inputContainer: {
+    height: 40,
+    borderRadius: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    ...Platform.select({
+      ios: {
+        shadowColor: "rgba(0, 0, 0, 0.3)",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  placeholderText: {
+    flex: 1,
+    fontSize: 14,
+  },
   newHere: {
-    backgroundColor: "#404040",
     paddingVertical: 8,
     paddingHorizontal: 20,
     flexDirection: "row",
@@ -172,7 +362,7 @@ const styles = StyleSheet.create({
     gap: 24,
     ...Platform.select({
       ios: {
-        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowColor: "rgba(0, 0, 0, 0.3)",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: 2,
@@ -186,7 +376,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 20,
     flexDirection: "column",
-    backgroundColor: "#202020",
     justifyContent: "flex-start",
     width: "100%",
     paddingVertical: 16,
@@ -199,7 +388,7 @@ const styles = StyleSheet.create({
     marginTop: -12,
   },
   headerBanner: {
-    height: 260,
+    objectFit: "cover",
     width: "100%",
     zIndex: 0,
   },
@@ -235,10 +424,8 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     borderRadius: 16,
     maxHeight: 32,
-    backgroundColor: "#404040",
     borderWidth: 0.5,
     marginRight: 8,
-    borderColor: "#666666",
   },
   filterText: {
     fontWeight: "bold",
@@ -275,14 +462,12 @@ const styles = StyleSheet.create({
     marginTop: 8,
     width: 80,
     textAlign: "center",
-    color: "#ccc",
   },
   cashbackItemValue: {
     fontSize: 16,
     fontWeight: "bold",
     flex: 1,
     marginTop: 4,
-    color: "#fff",
   },
   cashbackIcon: {
     width: 40,

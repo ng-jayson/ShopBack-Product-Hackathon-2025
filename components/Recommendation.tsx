@@ -1,4 +1,6 @@
 import React from "react";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "@/constants/Colors";
 import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 
 const items = [
@@ -35,6 +37,7 @@ const items = [
 ];
 
 export default function TwoColumnGrid() {
+  const colorScheme = useColorScheme();
   const renderItem = ({
     item,
   }: {
@@ -42,14 +45,35 @@ export default function TwoColumnGrid() {
   }) => (
     <View style={styles.card}>
       <Image source={{ uri: item.logo }} style={styles.logo} />
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.cashback}>{item.cashback}</Text>
+      <Text
+        style={[
+          styles.name,
+          { color: Colors[colorScheme ?? "light"].secondaryText },
+        ]}
+      >
+        {item.name}
+      </Text>
+      <Text
+        style={[
+          styles.cashback,
+          { color: Colors[colorScheme ?? "light"].text },
+        ]}
+      >
+        {item.cashback}
+      </Text>
     </View>
   );
 
   return (
     <View>
-      <Text style={styles.headerText}>Recommended for you</Text>
+      <Text
+        style={[
+          styles.headerText,
+          { color: Colors[colorScheme ?? "light"].text },
+        ]}
+      >
+        Recommended for you
+      </Text>
       <FlatList
         data={items}
         renderItem={renderItem}
@@ -67,7 +91,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#fff",
     marginBottom: 12,
   },
   row: {
@@ -88,12 +111,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "left",
     marginBottom: 4,
-    color: "#ccc",
   },
   cashback: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#fff",
     textAlign: "left",
   },
 });

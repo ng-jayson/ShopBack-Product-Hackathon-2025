@@ -2,8 +2,11 @@ import { Link } from "expo-router";
 import { StyleSheet, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function AccountScreen() {
+  const colorScheme = useColorScheme();
   return (
     <>
       <ThemedView style={styles.container}>
@@ -11,7 +14,16 @@ export default function AccountScreen() {
           source={require("@/assets/images/splash-icon.png")}
           style={styles.shopbackIcon}
         />
-        <ThemedText type="title" style={styles.title}>
+        <ThemedText
+          type="title"
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: Colors[colorScheme ?? "light"].text,
+            textAlign: "center",
+            marginBottom: 20,
+          }}
+        >
           This screen doesn't exist due to prototyping purposes
         </ThemedText>
         <Link href="/" style={styles.link}>
@@ -35,13 +47,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 100,
     marginBottom: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: 20,
   },
   link: {
     marginTop: 15,
