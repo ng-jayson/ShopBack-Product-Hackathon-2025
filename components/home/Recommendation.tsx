@@ -1,7 +1,7 @@
 import React from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
-import { StyleSheet, View, Text, Image, FlatList } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 
 const items = [
   {
@@ -38,31 +38,6 @@ const items = [
 
 export default function TwoColumnGrid() {
   const colorScheme = useColorScheme();
-  const renderItem = ({
-    item,
-  }: {
-    item: { logo: string; name: string; cashback: string };
-  }) => (
-    <View style={styles.card}>
-      <Image source={{ uri: item.logo }} style={styles.logo} />
-      <Text
-        style={[
-          styles.name,
-          { color: Colors[colorScheme ?? "light"].secondaryText },
-        ]}
-      >
-        {item.name}
-      </Text>
-      <Text
-        style={[
-          styles.cashback,
-          { color: Colors[colorScheme ?? "light"].text },
-        ]}
-      >
-        {item.cashback}
-      </Text>
-    </View>
-  );
 
   return (
     <View>
@@ -74,35 +49,50 @@ export default function TwoColumnGrid() {
       >
         Recommended for you
       </Text>
-      <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.container}
-      />
+      <View style={styles.container}>
+        {items.map((item, index) => (
+          <View key={index} style={styles.card}>
+            <Image source={{ uri: item.logo }} style={styles.logo} />
+            <Text
+              style={[
+                styles.name,
+                { color: Colors[colorScheme ?? "light"].secondaryText },
+              ]}
+            >
+              {item.name}
+            </Text>
+            <Text
+              style={[
+                styles.cashback,
+                { color: Colors[colorScheme ?? "light"].text },
+              ]}
+            >
+              {item.cashback}
+            </Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
   headerText: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 12,
   },
-  row: {
-    justifyContent: "space-between",
+  card: {
+    width: "48%",
     marginBottom: 16,
   },
-  card: {
-    flex: 1,
-    marginRight: 8,
-  },
   logo: {
-    maxWidth: "100%",
+    width: "100%",
     height: 100,
     borderRadius: 12,
     marginBottom: 4,

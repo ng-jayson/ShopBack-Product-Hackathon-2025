@@ -8,7 +8,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { LogBox } from "react-native";
 
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -29,7 +28,6 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
       SplashScreen.hideAsync();
     }
   }, [loaded]);
