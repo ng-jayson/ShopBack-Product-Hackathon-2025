@@ -179,7 +179,11 @@ export default function LocationBasedScreen() {
               style={[
                 styles.input,
                 {
-                  // borderColor: Colors[colorScheme ?? "light"].border,
+                  borderWidth: colorScheme === "dark" ? 0 : 1,
+                  borderColor:
+                    colorScheme === "light"
+                      ? Colors[colorScheme ?? "light"].border
+                      : "transparent",
                   color: Colors[colorScheme ?? "light"].text,
                   backgroundColor: Colors[colorScheme ?? "light"].card,
                 },
@@ -291,8 +295,11 @@ export default function LocationBasedScreen() {
                     styles.card,
                     {
                       backgroundColor: Colors[colorScheme ?? "light"].card,
-                      // borderColor: Colors[colorScheme ?? "light"].border,
-                      // borderWidth: 1,
+                      borderColor:
+                        colorScheme === "light"
+                          ? Colors[colorScheme ?? "light"].border
+                          : "transparent",
+                      borderWidth: colorScheme === "dark" ? 0 : 1,
                     },
                   ]}
                 >
@@ -471,7 +478,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: "100%",
     height: 40,
-    borderWidth: 1,
     paddingRight: 16,
     paddingLeft: 40,
   },
