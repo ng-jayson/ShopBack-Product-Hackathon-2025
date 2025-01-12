@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     objectFit: "cover",
     width: "100%",
     backgroundColor: "#F6E360",
-    paddingTop: 20,
+    // paddingTop: 20,
     zIndex: 0,
   },
   icon: {

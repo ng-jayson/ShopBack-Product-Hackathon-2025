@@ -144,7 +144,7 @@ export default function LocationBasedScreen() {
           <View
             style={{
               borderRadius: 20,
-              top: 135,
+              top: 160,
               left: 20,
               backgroundColor: "#FF3507",
               flexDirection: "row",
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     zIndex: 1,
-    marginTop: -52,
+    marginTop: -12,
   },
   headerBanner: {
     objectFit: "cover",
