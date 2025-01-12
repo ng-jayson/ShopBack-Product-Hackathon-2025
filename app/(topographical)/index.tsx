@@ -171,7 +171,7 @@ export default function LocationBasedScreen() {
         <ThemedView
           style={[
             styles.locationContainer,
-            { backgroundColor: Colors[colorScheme ?? "light"].card },
+            { backgroundColor: Colors[colorScheme ?? "light"].homeContainer },
           ]}
         >
           <View style={{ position: "relative" }}>
@@ -179,7 +179,7 @@ export default function LocationBasedScreen() {
               style={[
                 styles.input,
                 {
-                  borderColor: Colors[colorScheme ?? "light"].border,
+                  // borderColor: Colors[colorScheme ?? "light"].border,
                   color: Colors[colorScheme ?? "light"].text,
                   backgroundColor: Colors[colorScheme ?? "light"].card,
                 },
@@ -254,6 +254,7 @@ export default function LocationBasedScreen() {
                         selectedFilter === filter
                           ? "#FF3507"
                           : Colors[colorScheme ?? "light"].border,
+                      backgroundColor: Colors[colorScheme ?? "light"].card,
                     },
                   ]}
                 >
@@ -290,8 +291,8 @@ export default function LocationBasedScreen() {
                     styles.card,
                     {
                       backgroundColor: Colors[colorScheme ?? "light"].card,
-                      borderColor: Colors[colorScheme ?? "light"].border,
-                      borderWidth: 1,
+                      // borderColor: Colors[colorScheme ?? "light"].border,
+                      // borderWidth: 1,
                     },
                   ]}
                 >
