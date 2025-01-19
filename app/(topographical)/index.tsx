@@ -381,7 +381,12 @@ export default function LocationBasedScreen() {
           </View>
 
           {filteredVouchers.length === 0 && (
-            <ThemedView style={{ padding: 60 }}>
+            <ThemedView
+              style={{
+                padding: 60,
+                backgroundColor: Colors[colorScheme ?? "light"].homeContainer,
+              }}
+            >
               <Image
                 source={require("@/assets/images/voucher.png")}
                 style={{ width: 126, height: 103, alignSelf: "center" }}
